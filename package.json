@@ -1,0 +1,81 @@
+{
+	"name": "code-camp",
+	"version": "0.0.1",
+	"description": "shout labs code camp",
+	"main": "index.js",
+	"scripts": {
+		"build": "./node_modules/.bin/webpack --progress --profile --colors --display-error-details --display-cached",
+		"watch:build": "npm run build -- --watch",
+		"test": "export PHANTOMJS_BIN=/usr/local/bin/phantomjs && ./node_modules/.bin/karma start",
+		"watch:test": "npm run test -- --auto-watch --no-single-run",
+		"icons": "./convert-icomoon.js ./resources/shoutrlabs.zip ./src/app/sass/_icon.map.sass ./dist/fonts/",
+		"docu": "pwd && livingstyleguide compile src/app/sass/styleguide.lsg documentation/styleguide.html && nodejs node_modules/.bin/generate-md --layout github --input README.md --output ./documentation"
+	},
+	"config": {
+		"commitizen": {
+			"path": "cz-conventional-changelog"
+		},
+		"ghooks": {
+			"pre-push": "npm test"
+		}
+	},
+	"author": "Falko Krause",
+	"license": "commercial",
+	"private": true,
+	"dependencies": {
+		"@angular/common": "^2.1.2",
+		"@angular/compiler": "^2.1.2",
+		"@angular/core": "^2.1.2",
+		"@angular/forms": "^2.1.2",
+		"@angular/http": "^2.1.2",
+		"@angular/platform-browser": "^2.1.2",
+		"@angular/platform-browser-dynamic": "^2.1.2",
+		"@angular/router": "^3.1.2",
+		"@angular/upgrade": "^2.1.2",
+		"rxjs": "^5.0.0-beta.11",
+		"zone.js": "^0.6.26"
+	},
+	"devDependencies": {
+		"@angular/compiler-cli": "^2.1.1",
+		"@angular/platform-server": "^2.1.1",
+		"adm-zip": "^0.4.7",
+		"babel-core": "^6.18.2",
+		"babel-eslint": "^7.1.0",
+		"babel-loader": "^6.2.7",
+		"babel-plugin-transform-decorators-legacy": "^1.3.4",
+		"babel-preset-es2015": "^6.18.0",
+		"babel-preset-es2015-webpack": "^6.4.3",
+		"browserify": "^13.1.1",
+		"circular-dependency-plugin": "^2.0.0",
+		"copy-webpack-plugin": "^4.0.1",
+		"core-js": "^2.4.1",
+		"css-loader": "^0.25.0",
+		"es7-reflect-metadata": "^1.6.0",
+		"eslint-config-airbnb": "^12.0.0",
+		"istanbul-instrumenter-loader": "^0.2.0",
+		"jasmine-core": "^2.5.2",
+		"karma": "^1.3.0",
+		"karma-babel-preprocessor": "^6.0.1",
+		"karma-browserify": "^5.1.0",
+		"karma-chrome-launcher": "^2.0.0",
+		"karma-coverage": "^1.1.1",
+		"karma-jasmine": "^1.0.2",
+		"karma-phantomjs-launcher": "^1.0.2",
+		"karma-sourcemap-loader": "^0.3.7",
+		"karma-webpack": "^1.8.0",
+		"lodash": "^4.17.0",
+		"markdown-styles": "^3.1.8",
+		"node-sass": "^3.12.2",
+		"phantomjs": "^2.1.7",
+		"phantomjs-polyfill": "0.0.2",
+		"phantomjs-prebuilt": "^2.1.13",
+		"postcss-loader": "^1.1.1",
+		"raw-loader": "^0.5.1",
+		"reflect-metadata": "^0.1.8",
+		"sass-loader": "^4.0.2",
+		"style-loader": "^0.13.1",
+		"to-string-loader": "^1.1.5",
+		"webpack": "^1.13.3",
+		"webpack-dev-server": "^1.14.1"
+	}
+}

@@ -1,0 +1,44 @@
+source: 'shoutr.boxx-frontend.sass' # replace with your default Sass/SCSS file name
+title: 'Shourt Labs CMS Living Style Guide'
+
+# see all options https://github.com/livingstyleguide/livingstyleguide/blob/master/stylesheets/_livingstyleguide.scss
+style:
+  base-font: ClearSans
+  width: 750px
+
+header: |
+  <div class="my-header">
+    <h1>Shourt Labs CMS Living Style Guide</h1>
+  </div>
+
+  <p class="livingstyleguide--paragraph">
+    For coding related questions head over to the <a href="README.html">README</a>
+    <br>
+    So what is this Living Style Guide about? In this guide you can not only see how the HTML and CSS code works that makes your CMS come to live, but since the guide is generated from the current SASS code it also adepts to changes in the style files.
+  </p>
+
+styleguide-sass: |
+  .livingstyleguide
+    background-color: $color-white
+    font-family: ClearSans
+  .my-header
+    background: $color-matisse
+    color: $color-white
+    text-align: center
+    padding: 100px
+    h1
+      color: $color-white
+  [class^="icon-"]
+    display: inline-block
+  .livingstyleguide--code-span, .livingstyleguide--code-block
+    overflow: auto!important
+    background-color: $color-gallery!important
+  @font-face
+    font-family: 'shoutrlabs'
+    src: url('fonts/shoutrlabs.eot?-kkzuh')
+    src: url('fonts/shoutrlabs.eot?#iefix-kkzuh') format("embedded-opentype"), url('fonts/shoutrlabs.ttf?-kkzuh') format("truetype"), url('fonts/shoutrlabs.woff?-kkzuh') format("woff"), url('fonts/shoutrlabs.svg?-kkzuh#shoutrlabs') format("svg")
+    font-weight: normal
+    font-style: normal
+  @font-face
+    font-family: ClearSans
+    src: url('fonts/ClearSans-Regular.woff')

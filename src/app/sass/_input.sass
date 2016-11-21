@@ -1,0 +1,210 @@
+.sl-form__input
+	display: inline-flex
+	position: relative
+	align-items: center
+	input
+		margin-bottom: 0
+	>div
+		display: flex
+		align-items: center
+		justify-content: center
+		position: absolute
+		width: 45px
+		right: 0
+		height: 100%
+		cursor: pointer
+		color: $light-gray
+		transition: all $transition-time
+		&:hover
+			color: $medium-gray
+.sl-form
+	span
+		display: inline-block
+		transition: all $transition-time
+	// rotate plus icon
+	.sl-form__add--active
+		transform: rotate(45deg)
+
+	label:not([for])
+		font-size: 0.75em
+		text-transform: uppercase
+		color: $primary-color
+	input,
+	select,
+	textarea
+		box-shadow: none
+		border: none
+		border: 1px solid $color-gallery
+		transition: all $transition-time
+		&.ng-invalid.ng-pristine
+			border: 1px solid $color-cherub
+			&:hover
+				background: $color-cherub
+				&::placeholder
+					color: $color-white
+		&.ng-invalid:not(.ng-pristine)
+			border: 1px solid $alert-color
+		&.sl-form--input-inline
+			display: inline-block
+	.sl-form__submit-area
+		display: flex
+		justify-content: space-between
+		margin-bottom: #{2*$grid-space}
+		.button
+			margin: 0 $grid-space
+			&:first-child
+				margin-left: 0
+			&:last-child
+				margin-right: 0
+
+.sl-form__row
+	display: flex
+	> div
+		flex-grow: 1
+		flex-basis: 0
+		flex-wrap: wrap
+		flex-direction: row
+		margin: 0 $grid-space
+		white-space: nowrap
+		overflow-x: hidden
+		text-overflow: ellipsis
+		&:first-child
+			margin-left: 0
+		&:last-child
+			margin-right: 0
+	select
+		display: block
+	.sl-form__check + label
+		display: flex
+
+.button
+	&.button
+		background: $color-dodgerblue
+		// margin-bottom: 0
+		text-transform: uppercase
+		span
+			margin-right: $grid-space
+	.sl-alert-transparent
+		background: transparent
+		border: 1px solid $alert-color
+		color: $alert-color
+		transition: all $transition-time
+		&:hover, &:focus
+			background: $alert-color
+			color: $white
+	.sl-transparent
+		color: $color-white
+		background: transparent
+	.sl-transparent-border
+		color: $color-white
+		border: 1px solid $color-white
+		background: transparent
+
+
+
+.sl-form__switch[type="checkbox"]
+	display: none
+	& + label
+		cursor: pointer
+		position: relative
+		box-sizing: border-box
+		margin: 0 $grid-space
+		width: #{2*$touch-size-small}
+		height: $touch-size-small
+		border: 1px solid $color-aluminium
+		border-radius: #{$touch-size-small/2}
+		background-color: $color-white
+		&:before
+			+card(1)
+			position: absolute
+			top: 0
+			left: -1px
+			width: #{$touch-size-small - 2}
+			height: #{$touch-size-small - 2}
+			content: ''
+			transition: left $transition-time
+			border-radius: 50%
+			border: 1px solid $color-aluminium
+			background: $color-white
+	&:checked + label
+		border: 1px solid transparent
+		background: $color-dodgerblue
+		&:before
+			left: $touch-size-small
+			border: 1px solid transparent
+	&:disabled + label
+		pointer-events: none
+		&:before
+			background-color: $color-aluminium
+
+
+.sl-form [type='checkbox']:not(.sl-form__switch)
+	display: none
+	& + label
+		// @extend .icon-checkmark
+		// reset foundation
+		margin-left: 0
+		position: relative
+		display: inline-flex
+		align-items: center
+		box-sizing: border-box
+		height: $touch-size-medium
+		min-width: $touch-size-medium
+		padding-right: $grid-space
+		cursor: pointer
+		&:before
+			content: ' '
+			font-family: 'shoutr'
+			font-size: 21px
+			width: $touch-size-tiny
+			height: $touch-size-tiny
+			line-height: $touch-size-tiny
+			margin-right: $grid-space
+			transition: $transition-time
+			text-align: center
+			color: $color-white
+			border: 1px solid $color-dodgerblue
+			border-radius: 2px
+			background-color: $color-white
+	&:checked +label:before
+		background-color: $color-dodgerblue
+		content: '✓'
+		// use a better icon from e.g. a icomoon.com font here
+		// content: '✓'
+	&:disabled +label
+		pointer-events: none
+		&:before
+			border-color: $color-aluminium
+	&:disabled:checked +label:before
+		background-color: $color-aluminium
+
+.sl-form [type='radio']
+	display: none
+	& +label
+		display: inline-flex
+		flex-direction: row
+		box-sizing: border-box
+		min-width: $touch-size-medium
+		min-height: $touch-size-medium
+		cursor: pointer
+		align-items: center
+		margin-right: $grid-space
+		&:before
+			margin-right: $grid-space
+			width: $touch-size-tiny
+			height: $touch-size-tiny
+			content: ''
+			transition: 600ms
+			border: 1px solid $color-dodgerblue
+			border-radius: #{$touch-size-tiny/2}
+			background-color: $color-white
+	&:checked +label:before
+		border-width: #{$touch-size-tiny/4}
+	&:disabled +label
+		pointer-events: none
+		&:before
+			border-color: $color-aluminium
+	&.btn--horizontal +label
+		flex-direction: row
+		&:before
+			margin-right: $grid-space

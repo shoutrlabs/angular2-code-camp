@@ -1,0 +1,9 @@
+node_modules/
+build/
+.sass-cache/
+src/models
+.material
+coverage/
+models/
+docs/fonts
+.idea/
