@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { CommonModule } from '@angular/common';
 
 import { AppComponent } from './app.component';
 import UserModule from './user'
@@ -9,7 +8,6 @@ import UserModule from './user'
   imports: [
     BrowserModule,
     UserModule,
-    CommonModule,
   ],
   declarations: [
     AppComponent,

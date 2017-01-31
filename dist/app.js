@@ -35,8 +35,6 @@ webpackJsonp([0],{
 	
 	var _platformBrowser = __webpack_require__(21);
 	
-	var _common = __webpack_require__(22);
-	
 	var _app = __webpack_require__(24);
 	
 	var _user = __webpack_require__(377);
@@ -48,7 +46,7 @@ webpackJsonp([0],{
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	var _default = (_dec = (0, _core.NgModule)({
-	  imports: [_platformBrowser.BrowserModule, _user2.default, _common.CommonModule],
+	  imports: [_platformBrowser.BrowserModule, _user2.default],
 	  declarations: [_app.AppComponent],
 	  bootstrap: [_app.AppComponent] }), _dec(_class = function _default() {
 	  _classCallCheck(this, _default);
