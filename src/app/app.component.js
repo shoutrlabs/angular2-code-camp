@@ -1,10 +1,24 @@
 // app.component.js
-import { Component, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, ViewEncapsulation } from '@angular/core';
 @Component({
   selector: 'app',
-  template: `<h1> Hello {{ name }} </h1>
-    <fun-element (notify)="updateName($event)"></fun-element>`,
-  styles: ['h1 { color: red }'],
+  template: `
+<div class="body">
+  <header>
+  	<h1> THIS IS THE HEADER {{ name }} </h1>
+  </header>
+  <main>
+  	<div>
+  		<user-list></user-list>
+  	</div>
+  	<aside>
+  		some sidemenu
+  	</aside>
+  </main>
+</div>
+    `,
+  styles: [require('./app.component.sass')],
+  encapsulation: ViewEncapsulation.None,
 })
 
 export class AppComponent {
