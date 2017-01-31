@@ -1,20 +1,27 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { MyHeaderComponent } from './my-header.component';
+import { BrowserModule } from '@angular/platform-browser';
+// import { Module as UsersModule } from './_users';
+// import { Module as BoxxModule } from './_boxxs';
+import { AppComponent } from './app.component';
+import { FunComponent } from './fun.component';
+import { InputMaskDirective } from './mask.directive';
+import { UsersService } from './users.service';
 
-const routes = {
-
-};
 @NgModule({
-	imports: [
-		BrowserModule,
-		RouterModule.forRoot(routes),
-	],
-	declarations: [
-		App,
-		MyHeaderComponent,
-	],
-	bootstrap: [App],
+  imports: [
+    BrowserModule,
+    // UsersModule,
+    // BoxxModule,
+  ],
+  declarations: [
+    AppComponent,
+    FunComponent,
+    //UserListComponent,
+    InputMaskDirective,
+  ],
+  providers: [
+    UsersService,
+  ],
+  bootstrap: [AppComponent], // this is ONLY for the root module
 })
-export class AppModule { }
+export default class { }

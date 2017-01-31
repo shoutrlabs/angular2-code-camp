@@ -4,7 +4,7 @@
 	"description": "shout labs code camp",
 	"main": "index.js",
 	"scripts": {
-		"build": "./node_modules/.bin/webpack --progress --profile --colors --display-error-details --display-cached",
+		"build": "./node_modules/.bin/webpack --config=webpack.dev.js --progress --profile --colors --display-error-details --display-cached",
 		"watch:build": "npm run build -- --watch",
 		"test": "export PHANTOMJS_BIN=/usr/local/bin/phantomjs && ./node_modules/.bin/karma start",
 		"watch:test": "npm run test -- --auto-watch --no-single-run",
