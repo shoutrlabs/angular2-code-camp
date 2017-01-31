@@ -1,0 +1,174 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
+    <title>Shoutr-Labs CMS: Introduction</title>
+    <link type="text/css" rel="stylesheet" href="assets/css/github-markdown.css">
+    <link type="text/css" rel="stylesheet" href="assets/css/pilcrow.css">
+    <link type="text/css" rel="stylesheet" href="assets/css/hljs-github.min.css"/>
+  </head>
+  <body>
+    <article class="markdown-body"><h1 id="shoutr-labs-cms-introduction"><a class="header-link" href="#shoutr-labs-cms-introduction"></a>Shoutr-Labs CMS: Introduction</h1>
+<h2 id="stack-overview"><a class="header-link" href="#stack-overview"></a>Stack Overview</h2>
+<ul class="list">
+<li>NPM<ul class="list">
+<li>installing things</li>
+<li>upgrading thigs</li>
+<li>scripts</li>
+</ul>
+</li>
+<li>Webpack<ul class="list">
+<li>loaders</li>
+</ul>
+</li>
+<li>Karma<ul class="list">
+<li>integrate Webpack</li>
+<li>integrate Istanbul (code coverage)</li>
+<li>PhantomJS</li>
+<li>Git hooks</li>
+</ul>
+</li>
+<li>SASS<ul class="list">
+<li>setup</li>
+<li>foundation</li>
+</ul>
+</li>
+<li>Icomoon<ul class="list">
+<li>using</li>
+<li>integration (autogenerating SASS)</li>
+</ul>
+</li>
+<li>Angular 2.0 final<ul class="list">
+<li>RxJs</li>
+</ul>
+</li>
+</ul>
+<h2 id="file-overview"><a class="header-link" href="#file-overview"></a>File overview</h2>
+<p>The root code structure:</p>
+<pre class="hljs"><code>o config
+o coverage
+o docs
+o <span class="hljs-keyword">notes</span>
+o resources
+o src
+├─o <span class="hljs-keyword">app</span>
+│ ├─o _xxxx
+│ ├─o collection
+│ ├─o core
+│ ├─o forminputs
+│ ├─o models
+│ ├─o reducers
+│ ├─o sass
+│ ├─o servies
+│ └─o testing</code></pre><p>For a more detailed overview go to the /docs/README.html</p>
+<h2 id="npm"><a class="header-link" href="#npm"></a>NPM</h2>
+<p>NPM is the <strong>N</strong>ode <strong>P</strong>ackage <strong>M</strong>anager. I use it to install all source-code and development dependencies.</p>
+<h3 id="installing-and-upgrading"><a class="header-link" href="#installing-and-upgrading"></a>Installing and Upgrading</h3>
+<p>Install source-code dependencies, that is everything that goes into the package used by the users with </p>
+<pre class="hljs"><code>npm <span class="hljs-selector-tag">i</span> -S package-name</code></pre><p>this is short for </p>
+<pre class="hljs"><code>npm install --<span class="hljs-keyword">save</span>-dev package-<span class="hljs-keyword">name</span></code></pre><p>Install development dependencies with</p>
+<pre class="hljs"><code>npm <span class="hljs-selector-tag">i</span> -D package name</code></pre><p>these are all packages that you need during development but are not directly integrated into the packages that users get at the end</p>
+<p>NPM does not include a porper upgrade mechanism. That&#39;s where <code>npm-check</code> comes in. To find new versions of packages run</p>
+<pre class="hljs"><code>npm-<span class="hljs-keyword">check</span> <span class="hljs-comment">--skip-unused</span></code></pre><p>and build you upgrade command by hand like the following</p>
+<pre class="hljs"><code>npm install --save <span class="hljs-symbol">@angular</span>/common<span class="hljs-symbol">@2</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>  <span class="hljs-symbol">@angular</span>/compiler<span class="hljs-symbol">@2</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span> <span class="hljs-symbol">@angular</span>/core<span class="hljs-symbol">@2</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span></code></pre><h3 id="scripts"><a class="header-link" href="#scripts"></a>Scripts</h3>
+<p>NPM can run scripts, this is like <code>make</code> if you know that. All things that are automated like building, converting icomoon icons, ... should be started with scripts</p>
+<pre class="hljs"><code><span class="hljs-string">"scripts"</span>: {
+    <span class="hljs-string">"build"</span>: <span class="hljs-string">"./node_modules/.bin/webpack --progress --profile --colors --display-error-details --display-cached"</span>,
+    <span class="hljs-string">"test"</span>: <span class="hljs-string">"export PHANTOMJS_BIN=/usr/local/bin/phantomjs &amp;&amp; ./node_modules/.bin/karma start"</span>,
+    },</code></pre><p>There are a few special scripts like <code>start</code>, <code>test</code>, ... that can be run with</p>
+<pre class="hljs"><code>npm <span class="hljs-built_in">test</span></code></pre><p>but all other scripts are run with</p>
+<pre class="hljs"><code>npm <span class="hljs-built_in">run</span> build</code></pre><p>Head over to the /docs/README.html to read a short docu on the most important scripts. </p>
+<h2 id="webpack"><a class="header-link" href="#webpack"></a>Webpack</h2>
+<p>There are several build automation tools for JS out there like <code>grunt</code>, <code>gulp</code>, ... but at the time we started the project <code>webpack</code> was the tool of choice.</p>
+<p>Webpack uses a JS base config files and builds the project by starting at an entry point specified in this file <code>/config/webpack.dev.js</code></p>
+<pre class="hljs"><code>entry: {
+    app: <span class="hljs-string">'./src/boot.js'</span>,
+},
+output: {
+    filename: <span class="hljs-string">'app.boxx-frontend.js'</span>,
+},</code></pre><p>To optimize the build process we have split up the package into several sub packages that seperate code that changes frequently from code that changes rarely</p>
+<pre class="hljs"><code>plugins: [
+    <span class="hljs-keyword">new</span> webpack.optimize.CommonsChunkPlugin({
+        name: [<span class="hljs-string">'vendor'</span>, <span class="hljs-string">'polyfill'</span>],
+        filename: <span class="hljs-string">'[name].boxx-frontend.js'</span>,
+        minChunks: <span class="hljs-literal">Infinity</span>,
+    }),
+],
+entry: {
+    app: <span class="hljs-string">'./src/boot.js'</span>,
+    vendor: <span class="hljs-string">'./src/vendor.js'</span>,
+    polyfill: <span class="hljs-string">'./src/polyfills.js'</span>,
+},</code></pre><p>Now when I change the CMS code only this is rebuild and libraries like angular2 do not have to be rebuild.</p>
+<pre class="hljs"><code><span class="hljs-selector-tag">Time</span>: 9143<span class="hljs-selector-tag">ms</span>
+                                                <span class="hljs-selector-tag">Asset</span>     <span class="hljs-selector-tag">Size</span>  <span class="hljs-selector-tag">Chunks</span>             <span class="hljs-selector-tag">Chunk</span> <span class="hljs-selector-tag">Names</span>
+                 <span class="hljs-selector-tag">app</span><span class="hljs-selector-class">.boxx-frontend</span><span class="hljs-selector-class">.js</span>  1<span class="hljs-selector-class">.34</span> <span class="hljs-selector-tag">MB</span>       0  <span class="hljs-selector-attr">[emitted]</span>  <span class="hljs-selector-tag">app</span>
+        <span class="hljs-selector-tag">polyfill</span><span class="hljs-selector-class">.boxx-frontend</span><span class="hljs-selector-class">.js</span>   275 <span class="hljs-selector-tag">kB</span>       1  <span class="hljs-selector-attr">[emitted]</span>  <span class="hljs-selector-tag">polyfill</span>
+            <span class="hljs-selector-tag">vendor</span><span class="hljs-selector-class">.boxx-frontend</span><span class="hljs-selector-class">.js</span>  2<span class="hljs-selector-class">.22</span> <span class="hljs-selector-tag">MB</span>       2  <span class="hljs-selector-attr">[emitted]</span>  <span class="hljs-selector-tag">vendor</span>
+         <span class="hljs-selector-tag">app</span><span class="hljs-selector-class">.boxx-frontend</span><span class="hljs-selector-class">.js</span><span class="hljs-selector-class">.map</span>  1<span class="hljs-selector-class">.49</span> <span class="hljs-selector-tag">MB</span>       0  <span class="hljs-selector-attr">[emitted]</span>  <span class="hljs-selector-tag">app</span>
+<span class="hljs-selector-tag">polyfill</span><span class="hljs-selector-class">.boxx-frontend</span><span class="hljs-selector-class">.js</span><span class="hljs-selector-class">.map</span>   342 <span class="hljs-selector-tag">kB</span>       1  <span class="hljs-selector-attr">[emitted]</span>  <span class="hljs-selector-tag">polyfill</span>
+    <span class="hljs-selector-tag">vendor</span><span class="hljs-selector-class">.boxx-frontend</span><span class="hljs-selector-class">.js</span><span class="hljs-selector-class">.map</span>  2<span class="hljs-selector-class">.56</span> <span class="hljs-selector-tag">MB</span>       2  <span class="hljs-selector-attr">[emitted]</span>  <span class="hljs-selector-tag">vendor</span>
+        + 891 <span class="hljs-selector-tag">hidden</span> <span class="hljs-selector-tag">modules</span></code></pre><p>Compare the time change from 9s to 2s by just building the core code</p>
+<pre class="hljs"><code><span class="hljs-selector-tag">Time</span>: 2609<span class="hljs-selector-tag">ms</span>
+                                     <span class="hljs-selector-tag">Asset</span>     <span class="hljs-selector-tag">Size</span>  <span class="hljs-selector-tag">Chunks</span>             <span class="hljs-selector-tag">Chunk</span> <span class="hljs-selector-tag">Names</span>
+        <span class="hljs-selector-tag">app</span><span class="hljs-selector-class">.boxx-frontend</span><span class="hljs-selector-class">.js</span>  1<span class="hljs-selector-class">.34</span> <span class="hljs-selector-tag">MB</span>       0  <span class="hljs-selector-attr">[emitted]</span>  <span class="hljs-selector-tag">app</span>
+<span class="hljs-selector-tag">app</span><span class="hljs-selector-class">.boxx-frontend</span><span class="hljs-selector-class">.js</span><span class="hljs-selector-class">.map</span>  1<span class="hljs-selector-class">.49</span> <span class="hljs-selector-tag">MB</span>       0  <span class="hljs-selector-attr">[emitted]</span>  <span class="hljs-selector-tag">app</span>
+        + 891 <span class="hljs-selector-tag">hidden</span> <span class="hljs-selector-tag">modules</span></code></pre><h3 id="loaders"><a class="header-link" href="#loaders"></a>Loaders</h3>
+<p>With the help of loaders wepack is able to integrate HTML and CSS into the package that is build</p>
+<pre class="hljs"><code><span class="hljs-built_in">module</span>: {
+        loaders: [
+            { test: <span class="hljs-regexp">/\.sass$/</span>, loaders: [<span class="hljs-string">'to-string'</span>, <span class="hljs-string">'css'</span>, <span class="hljs-string">'sass'</span>] },
+            { test: <span class="hljs-regexp">/\.css$/</span>, loader: <span class="hljs-string">'raw-loader'</span> },
+            { test: <span class="hljs-regexp">/\.html$/</span>, loader: <span class="hljs-string">'raw-loader'</span> },
+            {
+                test: <span class="hljs-regexp">/\.js$/</span>,
+                exclude: <span class="hljs-regexp">/node_modules/</span>,
+                loader: <span class="hljs-string">'babel-loader'</span>,
+                query: {
+                    cacheDirectory: <span class="hljs-literal">true</span>,
+                    plugins: [<span class="hljs-string">'transform-decorators-legacy'</span>],
+                    presets: [<span class="hljs-string">'es2015'</span>],
+                },
+            },
+        ],
+    },</code></pre><p>in the souce you can now load a HTML template and CSS styles with  </p>
+<pre class="hljs"><code>@Component({
+    selector: <span class="hljs-string">`<span class="hljs-subst">${collectionName}</span>-form-component`</span>,
+    template: <span class="hljs-built_in">require</span>(<span class="hljs-string">'./form.component.html'</span>),
+    styles: [<span class="hljs-built_in">require</span>(<span class="hljs-string">'./form.component.sass'</span>)]
+})
+<span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FormComponent</span> </span>{}</code></pre><p>Why we are loading CSS as strings directly into the package will be explained later in the Angular 2 part (see shadow-root).</p>
+<h2 id="karma"><a class="header-link" href="#karma"></a>Karma</h2>
+<p>Karma ist the unit-test runner that is reccomended for Angular and has its own config at <code>/config/karma.conf.js</code></p>
+<p>Since the test need their own test enviornment and should be build with Webpack too we integrate it with</p>
+<pre class="hljs"><code>webpack: <span class="hljs-built_in">require</span>(<span class="hljs-string">'./webpack.test.js'</span>),
+files: [{ pattern: <span class="hljs-string">'./config/spec-bundle.js'</span>, watched: <span class="hljs-literal">false</span> }],</code></pre><p>The Webpack config does not specify an entry point since this is doe by Karma. The spec bundle loads the necessary unit-test enviornment and defines the pattern for including unit-test file</p>
+<pre class="hljs"><code><span class="hljs-keyword">var</span> testContext = <span class="hljs-built_in">require</span>.context(<span class="hljs-string">'../src'</span>, <span class="hljs-literal">true</span>, <span class="hljs-regexp">/^(?!.*models\/).*\.spec\.js$/</span>);</code></pre><p>that is all files ending with <code>.spec.js</code> but skip the folder <code>/src/app/models</code> since these are imported from the backend and are tested there.</p>
+<p>Karma then runs the test with PhantomJS a headless browser</p>
+<pre class="hljs"><code><span class="hljs-symbol">browsers:</span> [
+    <span class="hljs-string">'PhantomJS'</span>,
+    <span class="hljs-regexp">//</span> <span class="hljs-string">'Chrome'</span>
+],</code></pre><p>but you can see that testing with other browsers is also possible but is slower. Be sure to install the correct adapters to make testing work with other browsers if you decide to use them.</p>
+<h3 id="code-coverage"><a class="header-link" href="#code-coverage"></a>Code coverage</h3>
+<p>The Karma setup also uses Itanbul a code coverage tool.</p>
+<p>Let&#39;s have a look a the output under <code>/coverage/</code> and understand what </p>
+<ul class="list">
+<li>Statements <code>let a = 1;</code></li>
+<li>Branches <code>let a = this.horse ? this.horse.poop : null</code></li>
+<li>Functions <code>a = (i) =&gt; i * 3</code></li>
+<li>Lines</li>
+</ul>
+<p>mean.</p>
+<h3 id="git-hooks"><a class="header-link" href="#git-hooks"></a>Git hooks</h3>
+<p>Git allows you to trigger script before common git actions like <code>commit</code>, <code>push</code>, ... by creating script in <code>/.git/hooks/</code>. The scripts have self describing names like <code>pre-commit</code>, <code>post-commit</code>, <code>pre-push</code></p>
+<p>With the help of <code>ghook</code> we have set up a git hook for <code>pre-push</code> that runs the unit-test ensuring that only woking code can be pushed to the remote origin. The means you must fix all issues!</p>
+<p>This is cofigured by installing <code>ghooks</code> with npm and creating a config in <code>package.json</code></p>
+<pre class="hljs"><code><span class="hljs-string">"config"</span>: {
+    <span class="hljs-string">"ghooks"</span>: {
+        <span class="hljs-string">"pre-push"</span>: <span class="hljs-string">"npm test"</span>
+    }
+},</code></pre><h2 id="sass"><a class="header-link" href="#sass"></a>SASS</h2>
+<p>In the project we are using SASS that is the variant </p>
+    </article>
+  </body>
+</html>
